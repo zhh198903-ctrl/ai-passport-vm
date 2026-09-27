@@ -81,6 +81,7 @@ URL 的 `id` 参数可以指定开机固件：
 ## 许可
 
 - 模拟器代码：MIT，与上游相同，见 [LICENSE](LICENSE)。
+- **Claude Control 固件**（`public/assets/firmware/claude-control-demo.bin`、`claude-control.bin`）：专有软件，不开源，只以二进制形式随本模拟器提供，**不适用**本仓库的 MIT 许可；© 2026 zhh198903-ctrl，保留所有权利。
 - ESP-EMU WASM 内核：Apache-2.0，见 [public/wasm/pkg/LICENSE](public/wasm/pkg/LICENSE)。
 - 内置固件包含的第三方组件：见 [THIRD_PARTY_NOTICES.md](THIRD_PARTY_NOTICES.md)。
 

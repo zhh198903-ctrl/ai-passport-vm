@@ -12,8 +12,11 @@
 - `music-keychain.bin`, `answer-book.bin`, `folotoy-demo.bin`, `feishu-calendar-assistant.bin`:
   bundled by the upstream simulator from FoloToy
   ([FoloToy/ai-passport](https://github.com/FoloToy/ai-passport), MIT).
-- `claude-control-demo.bin`, `claude-control.bin`: Claude Control watch firmware, built from a fork
-  of [FoloToy/ai-passport](https://github.com/FoloToy/ai-passport) (MIT, © 2026 FoloToy). They contain:
+- `claude-control-demo.bin`, `claude-control.bin`: Claude Control watch firmware. **Proprietary,
+  closed source, distributed in binary form only for use with this simulator. Not covered by this
+  repository's MIT license. © 2026 zhh198903-ctrl, all rights reserved.** Built on a fork of
+  [FoloToy/ai-passport](https://github.com/FoloToy/ai-passport) (MIT, © 2026 FoloToy); the images
+  contain the following third-party components, whose notices apply to those components:
   - ESP-IDF — Apache License 2.0
   - LVGL — MIT
   - espressif/esp_websocket_client, espressif/button, espressif/esp_codec_dev — Apache License 2.0

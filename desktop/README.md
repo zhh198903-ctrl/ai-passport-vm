@@ -34,8 +34,8 @@ Run from source without packaging: `npm run desktop`.
 | URL id | Preset | Source |
 | --- | --- | --- |
 | 1–4 | upstream demos | unchanged |
-| 5 | Claude Control 演示 (offline demo, **default**) | `sdkconfig.ccr_demo` build of the Claude Control watch firmware |
-| 6 | Claude Control (connect to a computer) | `sdkconfig.ccr_pub` build — carries no pairing data |
+| 5 | Claude Control 演示 (offline demo, **default**) | Claude Control firmware, binary only (proprietary) |
+| 6 | Claude Control (connect to a computer) | Claude Control firmware, binary only (proprietary); carries no pairing data |
 
 The page boots preset 5 (Claude Control 演示) by default; any preset or a local image can be
 loaded from the sidebar. To refresh a preset from a new firmware build:
