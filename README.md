@@ -1,36 +1,73 @@
-# FoloToy AI Passport 模拟器
+# AI Passport 虚拟机
 
-[![FoloToy AI Passport 模拟器演示](./public/assets/demo/folotoy-emu.gif)](./public/assets/demo/folotoy-emu.mp4)
+在电脑上跑 AI Passport 手表的**真固件**：内置几个固件（默认开机跑 Claude Control 演示），
+也能加载任何别的固件。
+Windows 下载一个 exe，双击就能用。
 
-> 点击可观看视频！
+本项目 fork 自 [VOID001/FoloToy-Passport-Simulator](https://github.com/VOID001/FoloToy-Passport-Simulator)，
+模拟器内核与页面来自原作者，感谢。原项目说明见 [docs/UPSTREAM-README.md](docs/UPSTREAM-README.md)。
 
-在浏览器中运行 FoloToy AI Passport 的 ESP32-C3 固件。项目基于
-ESP-EMU v0.42.0、WebAssembly 和 QEMU，直接模拟开发板外设，普通固件无需为浏览器单独适配。
+## 下载（Windows）
 
-默认固件来自 [`FoloToy/ai-passport`](https://github.com/FoloToy/ai-passport)
-的 `c73254e2` 提交。
+到 [Releases](https://github.com/zhh198903-ctrl/ai-passport-vm/releases) 下载
+`AI-Passport-VM.exe`，双击运行，不用装 Node.js。
 
-## 模拟器说明
+- 用 Chrome 打开（没装 Chrome 就用系统自带的 Edge）；关掉模拟器窗口即退出。
+- 程序没有签名，第一次运行 Windows 可能提示「已保护你的电脑」：点「更多信息 → 仍要运行」。
+- 出问题时看日志：`%LOCALAPPDATA%\AIPassportVM\launcher.log`
 
-目前支持：
+## 能做什么
 
-- ST7789P3 屏幕
-- UP、DOWN、OK 和 POWER 按键
-- 扬声器和麦克风
-- ESP32-C3 Wi-Fi、TCP、UDP、DNS 和 ICMP
-- CPU 寄存器、UART 和网络检查器
-- 本地固件上传和 FoloToy 社区固件导入
+- **Claude Control 演示（默认）**：手表里模拟了一台开着 5 个 Claude Code 窗口的电脑 ——
+  会话列表在变、审批会冒出来、「做完了」的提醒会弹、按住 OK 说话会给出识别结果。
+  不联网，不用装别的东西。演示版不采集麦克风，识别结果是预设的句子。
+- **Claude Control（连接我的电脑）**：配合 Claude Control 桌面端，用模拟器里的手表查看、
+  继续、审批你电脑上真的 Claude Code 窗口。配对方法见下。桌面端还没上架，上架后在这里更新。
+- **其它固件**：FoloToy 官方 Demo、音乐钥匙扣、答案之书、飞书日程助手；也可以上传本地 `.bin`，
+  或粘贴 [FoloToy 社区](https://ai-passport.folotoy.cn/plays/) 的玩法链接。
 
-页面内置“音乐钥匙扣”“答案之书”“FoloToy 官方 Demo”和“飞书日程助手”
-四个固件。
+## 手表怎么操作
 
-可通过 URL 的 `id` 参数指定启动时加载的内置固件，例如：
+点页面上的实体键，或用键盘：`↑` = UP，`↓` = DOWN，`Enter` = OK。按住不放就是长按。
 
-```text
-http://127.0.0.1:4190/?id=2
+| 页面 | 操作 |
+| --- | --- |
+| 总览 | ↑↓ 选会话，OK 进入，长按 OK 进设置 |
+| 会话 | ↑↓ 选动作（继续 / 说话 / 预设 / 中断 / 前置窗口 / 静音），OK 执行，长按 UP 返回 |
+| 审批 | OK 批准，DOWN 拒绝，长按 UP 先不答 |
+| 说话 | 按住 OK 说话、松手结束；识别出来后 OK 发送 / UP 重说 / DOWN 取消 |
+
+## 连接我的电脑（配对）
+
+1. 在电脑上打开 Claude Control 桌面端，设备页勾选「启用局域网服务」，点「复制模拟器配对命令」。
+2. 模拟器左侧选「Claude Control · 连接我的电脑」，打开右上角检查器的 **UART** 页，
+   把命令粘进输入框回车。手表保存后重启，连上电脑。
+3. 在 UART 里输入 `status` 看配对状态，`unpair` 清除配对。
+
+配对信息只存在模拟器的这台虚拟手表里，固件本身不带任何配对信息。
+exe 里模拟器的虚拟 Wi-Fi 允许连本机局域网地址（网页公开部署默认不允许）。
+
+## 已知限制
+
+- 模拟器里一开麦克风录音，整机会明显变慢（模拟器内核的问题）；演示版不开麦克风，不受影响。
+- 没有 BLE、NFC、电量计；低功耗、射频、时序与真机不同。
+- 发布固件前请在真手表上复测。
+
+## 从源码运行 / 打包
+
+需要 Node.js 20 以上。
+
+```bash
+npm install
+npm test                 # 上游测试 + 内置固件校验
+npm start                # 浏览器打开 http://127.0.0.1:4190
+npm run desktop          # 同 exe 的启动方式（本机浏览器应用窗口）
+npm run build:exe        # 打包 dist-exe/AI-Passport-VM.exe
 ```
 
-仅接受以下固定值：
+打包、更换内置固件的细节见 [desktop/README.md](desktop/README.md)。
+
+URL 的 `id` 参数可以指定开机固件：
 
 | `id` | 固件 |
 | --- | --- |
@@ -38,141 +75,23 @@ http://127.0.0.1:4190/?id=2
 | `2` | 答案之书 |
 | `3` | FoloToy 官方 Demo |
 | `4` | 飞书日程助手 |
+| `5` | Claude Control 演示（默认） |
+| `6` | Claude Control（连接我的电脑） |
 
-参数缺失或不是上述值时加载 FoloToy 官方 Demo。
+## 许可
 
-按键也可使用键盘操作：
+- 模拟器代码：MIT，与上游相同，见 [LICENSE](LICENSE)。
+- ESP-EMU WASM 内核：Apache-2.0，见 [public/wasm/pkg/LICENSE](public/wasm/pkg/LICENSE)。
+- 内置固件包含的第三方组件：见 [THIRD_PARTY_NOTICES.md](THIRD_PARTY_NOTICES.md)。
 
-| 设备按键 | 键盘 |
-| --- | --- |
-| UP | `↑` |
-| DOWN | `↓` |
-| OK | `Enter` |
-| POWER | `P` |
+---
 
-声音需要先点击页面上的“声音”。麦克风需要单独授权，并且只能在
-`localhost` 或 HTTPS 页面使用。
+## English
 
-## 必要依赖
-
-- Node.js 20 或更高版本
-- npm
-- 支持 WebAssembly、Web Worker 和 Web Audio 的现代浏览器，推荐最新版 Chrome 或 Edge
-- Docker，可选，仅用于容器部署
-
-项目没有第三方 npm 运行依赖，WASM 运行时和示例固件已经包含在仓库中。
-
-## 本地运行
-
-```bash
-npm run prepare:emulator
-npm start
-```
-
-打开 <http://127.0.0.1:4190>。
-
-`prepare:emulator` 会检查固件、WASM 文件和开发板 ABI。日常开发确认文件没有变化后，
-也可以直接执行 `npm start`。
-
-如需让局域网设备访问：
-
-```bash
-HOST=0.0.0.0 PORT=4190 npm start
-```
-
-## 固件
-
-点击“上传固件”可选择本地 `.bin` 文件，或粘贴
-`https://ai-passport.folotoy.cn/plays/` 下的玩法详情链接。
-
-也可以通过模拟器 URL 的 `play` 参数直接加载已发布的社区玩法，例如：
-
-```text
-http://127.0.0.1:4190/?play=100
-```
-
-页面会自动拉取玩法 100 的社区 Full Flash 镜像，完成校验后直接运行。
-
-本地开发命令 `npm start` 会启用本地文件入口。`dist/` 发布包和 Docker
-镜像默认关闭该入口，只允许从 FoloToy 社区加载经过服务端校验的固件。
-
-本地固件需要满足以下条件：
-
-- ESP32-C3 Full Flash 合并镜像
-- 从地址 `0x0` 写入
-- 不超过 8 MiB
-- 包含 bootloader、分区表、应用和所需资源
-
-上传的本地固件只保存在当前页面中，刷新后会恢复默认固件。
-
-如需显式覆盖本地固件策略，可设置：
-
-```bash
-EMULATOR_ALLOW_LOCAL_FIRMWARE_UPLOAD=1 node server.mjs  # 启用
-EMULATOR_ALLOW_LOCAL_FIRMWARE_UPLOAD=0 npm start        # 关闭
-```
-
-## 生产部署
-
-先生成并校验 `dist/`：
-
-```bash
-npm test
-npm run build
-npm run verify:release
-```
-
-直接运行：
-
-```bash
-cd dist
-HOST=0.0.0.0 PORT=4190 npm start
-```
-
-Docker 部署：
-
-```bash
-docker build -t ai-passport-emulator .
-docker run --rm -p 4190:4190 ai-passport-emulator
-```
-
-健康检查地址为 `/healthz`。线上建议在反向代理层配置 HTTPS，并允许
-`/api/emulator-network` 的 WebSocket 升级。
-
-## 开发
-
-主要目录和文件：
-
-- `public/`：页面、样式和浏览器端运行代码
-- `public/wasm/`：ESP-EMU WASM 和开发板外设模拟
-- `server.mjs`：静态资源、社区固件接口和健康检查
-- `logging.mjs`：结构化运行日志、请求 ID 和错误字段
-- `network-bridge.mjs`：虚拟 Wi-Fi 网络桥
-- `test/`：Node.js 单元测试
-- `tools/`：构建和发布校验脚本
-
-常用命令：
-
-```bash
-npm start                # 启动开发服务
-npm test                 # 运行测试
-npm run build            # 构建 dist/
-npm run verify:release   # 校验发布文件
-npm run start:dist       # 运行 dist/ 版本
-```
-
-前端没有额外构建步骤，修改 `public/` 后刷新浏览器即可。
-
-## 已知限制
-
-- CW2017 电量计尚未模拟，官方 Demo 会显示 `Battery [FAIL]`
-- BLE 控制器尚未模拟，固件进入 BLE ROM 代码时会暂停并提示不支持
-- 低功耗行为与真实硬件不完全一致
-- 网络只支持 IPv4，不转发分片数据包
-- 默认禁止访问内网、回环和保留地址
-
-仅在可信的本地开发环境中，可允许模拟器访问内网：
-
-```bash
-EMULATOR_NETWORK_ALLOW_PRIVATE=1 npm start
-```
+**AI Passport VM** runs real AI Passport watch firmware on your computer. It boots the
+Claude Control demo by default (a scripted computer inside the watch, no network needed) and can
+load any other firmware: the bundled FoloToy demos, a local `.bin`, or a FoloToy community link.
+Download `AI-Passport-VM.exe` from Releases and double-click it (Windows; opens in Chrome,
+or Edge when Chrome is not installed). Forked from
+[VOID001/FoloToy-Passport-Simulator](https://github.com/VOID001/FoloToy-Passport-Simulator).
+Build from source with `npm install && npm run build:exe`; see [desktop/README.md](desktop/README.md).

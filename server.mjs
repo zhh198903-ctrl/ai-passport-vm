@@ -53,6 +53,29 @@ function assetPath(pathname) {
   return filename.startsWith(`${publicRoot}${path.sep}`) ? filename : null;
 }
 
+// Static assets come from public/ on disk by default. The desktop build (desktop/launcher.mjs)
+// passes its own provider that serves the same files embedded in the executable.
+// lookup(pathname) → { size, open() → readable stream | Buffer } or null when missing.
+export const diskAssets = {
+  async lookup(pathname) {
+    const filename = assetPath(pathname);
+    if (!filename) return null;
+    try {
+      const metadata = await stat(filename);
+      if (!metadata.isFile()) return null;
+      return { size: metadata.size, open: () => createReadStream(filename) };
+    } catch (error) {
+      if (error?.code === "ENOENT" || error?.code === "ENOTDIR") return null;
+      throw error;
+    }
+  },
+};
+
+export function contentTypeFor(pathname) {
+  const requested = pathname === "/" ? "/index.html" : pathname;
+  return mimeTypes[path.extname(requested)] || "application/octet-stream";
+}
+
 function writeJson(response, status, payload, includeBody = true) {
   const body = Buffer.from(JSON.stringify(payload));
   response.writeHead(status, {
@@ -212,6 +235,7 @@ async function serveCommunityFirmware(request, response, {
 }
 
 async function serve(request, response, {
+  assets,
   communityFirmwareFetcher,
   logger,
   requestId,
@@ -258,27 +282,29 @@ async function serve(request, response, {
     return;
   }
 
-  const filename = assetPath(requestUrl.pathname);
-  if (!filename) {
-    response.writeHead(404, securityHeaders);
-    response.end("Not found");
-    return;
-  }
-
   try {
-    const metadata = await stat(filename);
+    const asset = await (assets ?? diskAssets).lookup(requestUrl.pathname);
+    if (!asset) {
+      response.writeHead(404, securityHeaders);
+      response.end("Not found");
+      return;
+    }
     response.writeHead(200, {
       ...securityHeaders,
       "cache-control": "no-store",
-      "content-length": metadata.size,
-      "content-type": mimeTypes[path.extname(filename)] || "application/octet-stream",
+      "content-length": asset.size,
+      "content-type": contentTypeFor(requestUrl.pathname),
     });
     if (request.method === "HEAD") {
       response.end();
       return;
     }
-    const stream = createReadStream(filename);
-    stream.on("error", (error) => {
+    const body = asset.open();
+    if (Buffer.isBuffer(body) || body instanceof Uint8Array) {
+      response.end(body);
+      return;
+    }
+    body.on("error", (error) => {
       logger.error("static_asset_stream_failed", {
         request_id: requestId,
         path: requestUrl.pathname,
@@ -286,13 +312,8 @@ async function serve(request, response, {
       });
       response.destroy(error);
     });
-    stream.pipe(response);
+    body.pipe(response);
   } catch (error) {
-    if (error?.code === "ENOENT" || error?.code === "ENOTDIR") {
-      response.writeHead(404, securityHeaders);
-      response.end("Not found");
-      return;
-    }
     logger.error("static_asset_read_failed", {
       request_id: requestId,
       path: requestUrl.pathname,
@@ -316,6 +337,7 @@ export function createAppServer(options = {}) {
   const server = http.createServer((request, response) => {
     const requestId = startAccessLog(request, response, logger);
     serve(request, response, {
+      assets: options.assets,
       communityFirmwareFetcher,
       logger,
       requestId,

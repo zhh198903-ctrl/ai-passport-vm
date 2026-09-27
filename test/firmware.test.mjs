@@ -13,12 +13,14 @@ import {
 
 const availablePresetIds = Object.values(FIRMWARE_PRESET_IDS_BY_URL_ID);
 
-test("maps URL IDs 1 through 4 to the fixed firmware allowlist", () => {
+test("maps URL IDs 1 through 6 to the fixed firmware allowlist", () => {
   const expectedIds = [
     "music-keychain",
     "answer-book",
-    DEFAULT_FIRMWARE_PRESET_ID,
+    "official-demo",
     "feishu-calendar-assistant",
+    "claude-control-demo",
+    "claude-control",
   ];
 
   for (const [index, expectedId] of expectedIds.entries()) {
@@ -29,13 +31,13 @@ test("maps URL IDs 1 through 4 to the fixed firmware allowlist", () => {
   }
 });
 
-test("uses the official demo unless the URL ID is exactly 1 through 4", () => {
+test("boots the Claude Control demo unless the URL ID is exactly 1 through 6", () => {
   for (const search of [
     "",
     "?debug=network",
     "?id=",
     "?id=0",
-    "?id=5",
+    "?id=7",
     "?id=01",
     "?id=answer-book",
     "?id=../answer-book",

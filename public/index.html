@@ -4,21 +4,21 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="theme-color" content="#0a0d10">
-    <title>FoloToy Passport Simulator</title>
+    <title>AI Passport 虚拟机</title>
     <link rel="stylesheet" href="/styles.css">
     <script type="module" src="/app.js"></script>
   </head>
   <body>
     <main class="emulator">
       <header class="toolbar">
-        <a class="brand" href="/" aria-label="FoloToy Passport Simulator home">
+        <a class="brand" href="/" aria-label="AI Passport 虚拟机首页">
           <span>
-            <strong>FoloToy Passport Simulator</strong>
+            <strong>AI Passport 虚拟机</strong>
             <small>Powered by WebAssembly &amp; QEMU</small>
           </span>
         </a>
         <a class="github-repo"
-           href="https://github.com/VOID001/FoloToy-Passport-Simulator"
+           href="https://github.com/zhh198903-ctrl/ai-passport-vm"
            target="_blank" rel="noopener noreferrer"
            aria-label="在 GitHub 查看源码" title="在 GitHub 查看源码">
           <svg aria-hidden="true" viewBox="0 0 24 24" fill="none"
@@ -86,17 +86,17 @@
               </span>
               <span class="preset-state">运行</span>
             </button>
-            <button class="firmware-preset is-active" type="button"
+            <button class="firmware-preset" type="button"
                     data-firmware-id="official-demo"
                     data-firmware-name="FoloToy 官方 Demo"
                     data-firmware-url="/assets/firmware/folotoy-demo.bin"
-                    aria-pressed="true">
+                    aria-pressed="false">
               <span class="preset-index" aria-hidden="true">03</span>
               <span class="preset-copy">
                 <strong>FoloToy 官方 Demo</strong>
-                <small>当前默认 · 1.51 MB</small>
+                <small>官方演示 · 1.51 MB</small>
               </span>
-              <span class="preset-state">当前</span>
+              <span class="preset-state">运行</span>
             </button>
             <button class="firmware-preset" type="button"
                     data-firmware-id="feishu-calendar-assistant"
@@ -107,6 +107,30 @@
               <span class="preset-copy">
                 <strong>飞书日程助手</strong>
                 <small>日程与待办 · 2.19 MB</small>
+              </span>
+              <span class="preset-state">运行</span>
+            </button>
+            <button class="firmware-preset is-active" type="button"
+                    data-firmware-id="claude-control-demo"
+                    data-firmware-name="Claude Control 演示"
+                    data-firmware-url="/assets/firmware/claude-control-demo.bin"
+                    aria-pressed="true">
+              <span class="preset-index" aria-hidden="true">05</span>
+              <span class="preset-copy">
+                <strong>Claude Control 演示</strong>
+                <small>默认 · 离线演示 · 1.11 MB</small>
+              </span>
+              <span class="preset-state">当前</span>
+            </button>
+            <button class="firmware-preset" type="button"
+                    data-firmware-id="claude-control"
+                    data-firmware-name="Claude Control"
+                    data-firmware-url="/assets/firmware/claude-control.bin"
+                    aria-pressed="false">
+              <span class="preset-index" aria-hidden="true">06</span>
+              <span class="preset-copy">
+                <strong>Claude Control</strong>
+                <small>连接我的电脑 · 1.84 MB</small>
               </span>
               <span class="preset-state">运行</span>
             </button>
@@ -206,11 +230,10 @@
           aria-label="Input event log"></ol>
 
       <footer class="site-footer">
-        <span>Made by</span>
-        <a href="https://github.com/VOID001"
-           target="_blank" rel="noopener noreferrer">VOID001</a>
-        <span aria-hidden="true">❤️</span>
-        <span>AI</span>
+        <span>基于</span>
+        <a href="https://github.com/VOID001/FoloToy-Passport-Simulator"
+           target="_blank" rel="noopener noreferrer">VOID001/FoloToy-Passport-Simulator</a>
+        <span>（Made by VOID001 ❤️ AI）</span>
       </footer>
     </main>
 

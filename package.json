@@ -10,9 +10,15 @@
     "start": "node server.mjs --allow-local-firmware-upload",
     "start:dist": "node dist/server.mjs",
     "verify:release": "node tools/verify-site.mjs",
-    "test": "node --test"
+    "test": "node --test",
+    "desktop": "node desktop/launcher.mjs",
+    "build:exe": "node desktop/build-exe.mjs"
   },
   "engines": {
     "node": ">=20"
+  },
+  "devDependencies": {
+    "esbuild": "^0.28.2",
+    "postject": "^1.0.0-alpha.6"
   }
 }
