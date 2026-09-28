@@ -19,10 +19,11 @@ Windows 下载一个 exe，双击就能用。
 ## 能做什么
 
 - **Claude Control 演示（默认）**：手表里模拟了一台开着 5 个 Claude Code 窗口的电脑 ——
-  会话列表在变、审批会冒出来、「做完了」的提醒会弹、按住 OK 说话会给出识别结果。
-  不联网，不用装别的东西。演示版不采集麦克风，识别结果是预设的句子。
-- **Claude Control（连接我的电脑）**：配合 Claude Control 桌面端，用模拟器里的手表查看、
-  继续、审批你电脑上真的 Claude Code 窗口。配对方法见下。桌面端还没上架，上架后在这里更新。
+  会话列表在变，Claude Code 的三种选项框会轮流冒出来（权限提示三选一；两道题的提问，单选、多选、
+  「自己输入」、汇总提交；计划确认），「做完了」的提醒会弹，按住 OK 说话会给出识别结果，
+  每个会话都能点进「上下文」往前翻看对话记录。不联网，不用装别的东西。演示版不采集麦克风，识别结果是预设的句子。
+- **Claude Control（连接我的电脑）**：配合 Claude Control 桌面端，用模拟器里的手表查看、继续、
+  回答你电脑上真的 Claude Code 窗口里的选项框，点进会话翻看最近的对话。配对方法见下。桌面端还没上架，上架后在这里更新。
 - **其它固件**：FoloToy 官方 Demo、音乐钥匙扣、答案之书、飞书日程助手；也可以上传本地 `.bin`，
   或粘贴 [FoloToy 社区](https://ai-passport.folotoy.cn/plays/) 的玩法链接。
 
@@ -33,8 +34,9 @@ Windows 下载一个 exe，双击就能用。
 | 页面 | 操作 |
 | --- | --- |
 | 总览 | ↑↓ 选会话，OK 进入，长按 OK 进设置 |
-| 会话 | ↑↓ 选动作（继续 / 说话 / 预设 / 中断 / 前置窗口 / 静音），OK 执行，长按 UP 返回 |
-| 审批 | OK 批准，DOWN 拒绝，长按 UP 先不答 |
+| 会话 | ↑↓ 选动作（回答… / 继续 / 说话 / 预设 / 上下文 / 中断 / 前置窗口 / 静音），OK 执行，长按 UP 返回 |
+| 选择（选项框） | ↑↓ 选一行，OK 执行：选这一项（多选题是勾选）、「自己输入」进说话页、下一题 / 上一题、取消、看详情；长按 UP 先不答 |
+| 上下文 | ↑↓ 翻一屏，到顶 / 到底再按就去拿更早 / 更新的一页，OK 回到最新，长按 UP 返回 |
 | 说话 | 按住 OK 说话、松手结束；识别出来后 OK 发送 / UP 重说 / DOWN 取消 |
 
 ## 连接我的电脑（配对）
@@ -90,7 +92,9 @@ URL 的 `id` 参数可以指定开机固件：
 ## English
 
 **AI Passport VM** runs real AI Passport watch firmware on your computer. It boots the
-Claude Control demo by default (a scripted computer inside the watch, no network needed) and can
+Claude Control demo by default (a scripted computer inside the watch, no network needed: sessions
+change, Claude Code's choosers pop up — permission prompts, multi-question AskUserQuestion with
+multi-select and free text, plan approval — and each session's recent conversation can be browsed) and can
 load any other firmware: the bundled FoloToy demos, a local `.bin`, or a FoloToy community link.
 Download `AI-Passport-VM.exe` from Releases and double-click it (Windows; opens in Chrome,
 or Edge when Chrome is not installed). Forked from

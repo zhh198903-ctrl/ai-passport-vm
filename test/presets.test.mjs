@@ -28,11 +28,11 @@ const expectedPresets = new Map([
     "95a428618ec2d44feacd4a1ffc9467b003c2ccb44cea455776f5bd339c68199e",
   ],  [
     "/assets/firmware/claude-control-demo.bin",
-    "94fd948246c738354d3ded010d230d75dd0bfc3f0354b78e6f1cf988cad97918",
+    "a957476c7206310a5f0bb11b3ec02b812d8538423b9c313e823d22f75d6c3449",
   ],
   [
     "/assets/firmware/claude-control.bin",
-    "471dea608b95d3133ca3934c40b54ae7d41476f25c8ed3c1bacf53d32bb8362d",
+    "f85e1bf3725996fa5fcfe96aee0bce976740d1e57f7f86a2fb900eb20c528d39",
   ],
 ]);
 

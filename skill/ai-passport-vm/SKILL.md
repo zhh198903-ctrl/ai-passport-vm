@@ -1,6 +1,6 @@
 ---
 name: ai-passport-vm
-description: 帮用户用好「AI Passport 虚拟机」—— 在 Windows 上跑 AI Passport 手表真固件的模拟器（AI-Passport-VM.exe）。打不开 / 白屏 / 没反应时去读启动日志、加载或上传别的固件、手表按键怎么操作、Claude Control 演示怎么玩、「连接我的电脑」固件怎么在 UART 里配对、已知限制。触发词：AI Passport 虚拟机, AI-Passport-VM, ai-passport-vm, 手表模拟器, 模拟器打不开, 加载固件, 上传固件, UART 配对, pair 命令, launcher.log, Claude Control 演示。
+description: 帮用户用好「AI Passport 虚拟机」—— 在 Windows 上跑 AI Passport 手表真固件的模拟器（AI-Passport-VM.exe）。打不开 / 白屏 / 没反应时去读启动日志、加载或上传别的固件、手表按键怎么操作、Claude Control 演示怎么玩、「连接我的电脑」固件怎么在 UART 里配对、已知限制。触发词：AI Passport 虚拟机, AI-Passport-VM, ai-passport-vm, 手表模拟器, 模拟器打不开, 加载固件, 上传固件, UART 配对, pair 命令, launcher.log, Claude Control 演示, 选项框, 选择页, 上下文。
 ---
 
 # AI Passport 虚拟机
@@ -57,8 +57,8 @@ tail -20 "$LOCALAPPDATA/AIPassportVM/launcher.log"
 
 | 序号 | 固件 | 说明 |
 |---|---|---|
-| 05 | **Claude Control 演示（默认）** | 手表里模拟一台开着几个 Claude Code 窗口的电脑：会话在变、审批会冒出来、提醒会弹、说话给预设的识别结果。不联网 |
-| 06 | Claude Control · 连接我的电脑 | 配合 Claude Control 桌面端遥控真的 Claude Code 窗口，要先配对（见下） |
+| 05 | **Claude Control 演示（默认）** | 手表里模拟一台开着几个 Claude Code 窗口的电脑：会话在变；三种选项框轮流冒出来（权限提示三选一、两道题的提问、计划确认）；提醒会弹；说话给预设的识别结果；每个会话能翻看「上下文」。不联网 |
+| 06 | Claude Control · 连接我的电脑 | 配合 Claude Control 桌面端遥控真的 Claude Code 窗口：回答选项框、翻看会话记录，要先配对（见下） |
 | 01–04 | 音乐钥匙扣、答案之书、FoloToy 官方 Demo、飞书日程助手 | FoloToy 的官方固件 |
 
 - **上传自己的固件**：「上传固件」选本地 `.bin`。要求：ESP32-C3 **完整 Flash 合并镜像**、从地址 `0x0`
@@ -73,9 +73,13 @@ tail -20 "$LOCALAPPDATA/AIPassportVM/launcher.log"
 | 页面 | 操作 |
 |---|---|
 | 总览 | ↑↓ 选会话，OK 进入，长按 OK 进设置 |
-| 会话 | ↑↓ 选动作（继续 / 说话 / 预设 / 中断 / 前置窗口 / 静音），OK 执行，长按 UP 返回 |
-| 审批 | OK 批准，DOWN 拒绝，长按 UP 先不答 |
+| 会话 | ↑↓ 选动作（回答… / 继续 / 说话 / 预设 / 上下文 / 中断 / 前置窗口 / 静音），OK 执行，长按 UP 返回。「回答…」只在这个会话有选项框时出现 |
+| 选择（选项框，自动弹出） | 顶部是审批 / 提问 1/2 / 计划 / 汇总，下面是和电脑屏幕上一样的选项（`1. Yes`；多选题前面 ○ / ✓）。↑↓ 选一行，OK 执行：选这一项（单选就翻到下一题，多选是勾选）、「Type something」这类自己输入行 → 进说话页，识别确认后连文字一起答、「→ 下一题 / 去提交」、「← 上一题」、「× 取消（Esc）」、「… 看详情」（命令 / 改动 / 计划全文，↑↓ 翻，OK 回来）。长按 UP 先不答 |
+| 上下文 | 这个会话最近的对话：`>` 你发的、`●` Claude 说的、`•` 工具调用、`→` 结果。↑↓ 翻一屏，到顶 / 到底再按就拿更早 / 更新的一页，OK 回到最新，长按 UP 返回 |
 | 说话 | 按住 OK 说、松手结束；识别出来后 OK 发送 / UP 重说 / DOWN 取消 |
+
+选择页上提示「先回答电脑上的提问」：这个会话有选项框开着，继续 / 预设 / 说话会打进框里，所以被拒了；先回答，或用「中断」取消它。
+「电脑上的选项变了，请重看」：有人在电脑上先动了这个框，手表已换成新的一步，看清再按。
 
 ## 「连接我的电脑」配对
 

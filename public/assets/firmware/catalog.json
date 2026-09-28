@@ -34,15 +34,15 @@
       "id": "claude-control-demo",
       "title": "Claude Control 演示",
       "file": "/assets/firmware/claude-control-demo.bin",
-      "bytes": 1161488,
-      "sha256": "94fd948246c738354d3ded010d230d75dd0bfc3f0354b78e6f1cf988cad97918"
+      "bytes": 1182144,
+      "sha256": "a957476c7206310a5f0bb11b3ec02b812d8538423b9c313e823d22f75d6c3449"
     },
     {
       "id": "claude-control",
       "title": "Claude Control",
       "file": "/assets/firmware/claude-control.bin",
-      "bytes": 1926704,
-      "sha256": "471dea608b95d3133ca3934c40b54ae7d41476f25c8ed3c1bacf53d32bb8362d"
+      "bytes": 1938784,
+      "sha256": "f85e1bf3725996fa5fcfe96aee0bce976740d1e57f7f86a2fb900eb20c528d39"
     }
   ]
 }
